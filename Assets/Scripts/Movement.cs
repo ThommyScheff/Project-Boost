@@ -7,6 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 public class Movement : MonoBehaviour
 {
     Rigidbody myRigidBoy;
+    AudioSource myAudioSource;
     Vector3 moveUp = Vector3.up;
     int mainThrust = 1000;
     int rotationSpeed = 100;
@@ -15,6 +16,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         myRigidBoy = GetComponent<Rigidbody>();
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,13 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space)) 
         {
             myRigidBoy.AddRelativeForce(moveUp * mainThrust * Time.deltaTime);
+            if (!myAudioSource.isPlaying) {
+                myAudioSource.Play();
+            } 
         }
+        else {
+                myAudioSource.Stop();
+            }
     }
     void processRotation() {
         myRigidBoy.freezeRotation = true;
