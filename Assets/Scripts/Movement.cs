@@ -7,7 +7,8 @@ using Vector3 = UnityEngine.Vector3;
 public class Movement : MonoBehaviour
 {
     Rigidbody myRigidBoy;
-    AudioSource myAudioSource;
+    [SerializeField] AudioSource rocketEngine;
+    [SerializeField] ParticleSystem mainThrusterParticles;
     Vector3 moveUp = Vector3.up;
     int mainThrust = 1000;
     int rotationSpeed = 100;
@@ -16,7 +17,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         myRigidBoy = GetComponent<Rigidbody>();
-        myAudioSource = GetComponent<AudioSource>();
+        rocketEngine = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,12 +31,14 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space)) 
         {
             myRigidBoy.AddRelativeForce(moveUp * mainThrust * Time.deltaTime);
-            if (!myAudioSource.isPlaying) {
-                myAudioSource.Play();
+            if (!rocketEngine.isPlaying) {
+                rocketEngine.Play();
+                mainThrusterParticles.Play();
             } 
         }
         else {
-                myAudioSource.Stop();
+                rocketEngine.Stop();
+                mainThrusterParticles.Stop();
             }
     }
     void processRotation() {
